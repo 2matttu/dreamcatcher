@@ -26,24 +26,13 @@ print("uri: " + db_uri)
     
 @app.route('/')
 def hello_world():
-    dream_list = list(collection.find()) #find everything
+    date_str = datetime.today().strftime('%Y-%m-%d')
+    dream_list = list(collection.find( {"date": date_str} ).sort("score", -1)) #find everything
     for dream in dream_list:
         print(dream['title'])
-    return render_template('dreams.html', dream_list = dream_list)
-
-@app.route('/function')
-def api_func():
-    response = requests.get("https://www.reddit.com/r/tifu.json")
-    # print(response.text)
-    return str(response.status_code)
-
-@app.route('/dbtest')
-def db_post():
-    post = {"name": "matt", "score": 5}
-    collection.insert_one(post)
-    return 'success'
+    return render_template('dreams.html', dream_list = dream_list, date = date_str)
     
-@app.route('/testpraw')
+@app.route('/getdreams')
 def test_praw():
     date_str = datetime.today().strftime('%Y-%m-%d')
     print("today is " + date_str)

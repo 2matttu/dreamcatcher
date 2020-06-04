@@ -5,9 +5,10 @@
     <title>title</title>
   </head>
   <body>
-    <h1>asdfasdf</h1>
+    <h1>{{ date }}</h1>
     {% for dream in dream_list %}
         <h1>{{ dream['title'] }}</h1>
+        <h2>Score: {{ dream['score']}}</h2>
         <p>{{ dream['text'] }}</p>
     {% endfor %}
   </body>
