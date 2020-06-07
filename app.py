@@ -4,6 +4,7 @@ import json
 import os
 import requests
 import praw
+import tweepy
 import pymongo
 from pymongo import MongoClient
 app = Flask(__name__)
@@ -20,6 +21,10 @@ reddit = praw.Reddit(client_id = os.path.expandvars("$REDDIT_ID"),
                     user_agent  = "dreamcatcher", 
                     username = os.path.expandvars("$REDDIT_USERNAME"))
 dreams_sub = reddit.subreddit('Dreams')
+
+#tweepy
+tw_auth = tweepy.AppAuthHandler(os.path.expandvars("$TWITTER_KEY"), os.path.expandvars("$TWITTER_SECRET"))
+tw_api = tweepy.API(tw_auth)
 
 print(reddit.user.me())
 print("uri: " + db_uri)
@@ -63,4 +68,10 @@ def test_praw():
         seen_count += 1
     collection.insert_many(db_payload_list)
     print('added ' + str(upload_count) + ' new dreams (out of ' + str(seen_count) + ' dreams) to the dreamcatcher!')
+    return 'success'
+
+@app.route('/twitter')
+def test_tweepy():
+    for tweet in tweepy.Cursor(tw_api.search, q='i am cooking').items(10):
+        print(tweet.text + "\n")
     return 'success'
