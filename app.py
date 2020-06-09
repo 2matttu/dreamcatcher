@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from datetime import datetime
+from datetime import datetime, timedelta, date
 import json
 import os
 import requests
@@ -72,6 +72,18 @@ def test_praw():
 
 @app.route('/twitter')
 def test_tweepy():
-    for tweet in tweepy.Cursor(tw_api.search, q='i am cooking').items(10):
-        print(tweet.text + "\n")
+    today = date.today()
+    yesterday = today - timedelta(days=1)
+    count = 0
+    print('yesterday date: ', yesterday)
+    for tweet in tweepy.Cursor(tw_api.search, q='"i dreamed about" OR "i had a dream about" OR "i had a nightmare about" OR "i dreamed that" -filter:retweets -filter:media -filter:links -filter:replies since:' + yesterday.strftime('%Y-%m-%d') + ' until:' + today.strftime('%Y-%m-%d')).items(200):
+        try: 
+            print(str(tweet.text) + "\n~~\n")
+            print(str(tweet.created_at))
+            count += 1
+        except:
+            print('[text not found]' + "\n~~\n")
+    
+    #status report
+    print(count, " dreams collected")
     return 'success'

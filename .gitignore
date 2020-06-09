@@ -1,2 +1,5 @@
 __pycache__
 init
+node_modules/*
+build
+npm-debug.log
