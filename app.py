@@ -13,6 +13,7 @@ db_uri = os.path.expandvars("$DB_URI")
 cluster = MongoClient(db_uri)
 db = cluster["dreamcatcher"]
 collection = db["dreams"]
+twitter_dreams = db["twitter"]
 
 #praw
 reddit = praw.Reddit(client_id = os.path.expandvars("$REDDIT_ID"), 
@@ -37,7 +38,7 @@ def hello_world():
         print(dream['title'])
     return render_template('dreams.html', dream_list = dream_list, date = date_str)
     
-@app.route('/getdreams')
+@app.route('/reddit')
 def test_praw():
     date_str = datetime.today().strftime('%Y-%m-%d')
     print("today is " + date_str)
@@ -75,15 +76,25 @@ def test_tweepy():
     today = date.today()
     yesterday = today - timedelta(days=1)
     count = 0
-    print('yesterday date: ', yesterday)
-    for tweet in tweepy.Cursor(tw_api.search, q='"i dreamed about" OR "i had a dream about" OR "i had a nightmare about" OR "i dreamed that" -filter:retweets -filter:media -filter:links -filter:replies since:' + yesterday.strftime('%Y-%m-%d') + ' until:' + today.strftime('%Y-%m-%d')).items(200):
+    tweets_to_upload = []
+    #searches for dream-related tweets the day before
+    for tweet in tweepy.Cursor(tw_api.search, q='"i dreamed about" OR "i had a dream about" OR "i had a nightmare about" OR "i dreamed that" -filter:retweets -filter:media -filter:links -filter:replies since:' + yesterday.strftime('%Y-%m-%d') + ' until:' + today.strftime('%Y-%m-%d')).items(1000):
         try: 
-            print(str(tweet.text) + "\n~~\n")
-            print(str(tweet.created_at))
+            #debugging in console
+            # print("\n~~\n", tweet.text)
+            # print(tweet.created_at)
+            # print(tweet.id)
+            # print("truncated?", tweet.truncated)
+
+            tweet_to_add = {"date": str(yesterday), "date_time": str(tweet.created_at), "tweet_id": tweet.id, "text": str(tweet.text), "truncated": tweet.truncated}
+            tweets_to_upload.append(tweet_to_add)
+            # print("added to array!")
             count += 1
+            print("found", count, "dream so far")
         except:
-            print('[text not found]' + "\n~~\n")
+            print('\n[something went wrong]')
     
     #status report
     print(count, " dreams collected")
-    return 'success'
+    twitter_dreams.insert_many(tweets_to_upload)
+    return 'done'
