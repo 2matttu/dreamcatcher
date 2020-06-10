@@ -75,6 +75,12 @@ def test_praw():
 def test_tweepy():
     today = date.today()
     yesterday = today - timedelta(days=1)
+    
+    latest_dream = twitter_dreams.find_one(sort=[("date_time", -1)])
+    print(latest_dream['date'])
+    if latest_dream['date'] == str(yesterday):
+        return "nothing to update"
+
     count = 0
     tweets_to_upload = []
     #searches for dream-related tweets the day before
