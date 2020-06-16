@@ -71,7 +71,7 @@ def test_praw():
     print('added ' + str(upload_count) + ' new dreams (out of ' + str(seen_count) + ' dreams) to the dreamcatcher!')
     return 'success'
 
-@app.route('/twitter')
+@app.route(os.path.expandvars("/$UPDATE_ROUTENAME"))
 def test_tweepy():
     today = date.today()
     yesterday = today - timedelta(days=1)
