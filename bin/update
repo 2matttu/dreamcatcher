@@ -1,1 +1,3 @@
-echo test
+echo ${APP_URL}${UPDATE_ROUTENAME}
+curl ${APP_URL}${UPDATE_ROUTENAME}
+echo "process is complete"
