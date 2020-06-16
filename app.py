@@ -32,11 +32,12 @@ print("uri: " + db_uri)
     
 @app.route('/')
 def hello_world():
-    date_str = datetime.today().strftime('%Y-%m-%d')
-    dream_list = list(collection.find( {"date": date_str} ).sort("score", -1)) #find everything
-    for dream in dream_list:
-        print(dream['title'])
-    return render_template('dreams.html', dream_list = dream_list, date = date_str)
+    today = date.today()
+    yesterday = today - timedelta(days=1)
+    dream_list = list(twitter_dreams.find( {"date": str(yesterday)} )) #find everything
+    # for dream in dream_list:
+    #     print(dream['text'])
+    return render_template('dreams.html', dream_list = dream_list, date = str(yesterday))
     
 @app.route('/reddit')
 def test_praw():

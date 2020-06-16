@@ -7,9 +7,7 @@
   <body>
     <h1>{{ date }}</h1>
     {% for dream in dream_list %}
-        <h1>{{ dream['title'] }}</h1>
-        <h2>Score: {{ dream['score']}}</h2>
-        <p>{{ dream['text'] }}</p>
+    <p>{{ dream['text'] }}</p>
     {% endfor %}
   </body>
 </html>
