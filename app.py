@@ -67,8 +67,8 @@ def test_praw():
         else:
             print('not yeet')
         seen_count += 1
-    collection.insert_many(db_payload_list)
-    print('added ' + str(upload_count) + ' new dreams (out of ' + str(seen_count) + ' dreams) to the dreamcatcher!')
+    # collection.insert_many(db_payload_list)
+    # print('added ' + str(upload_count) + ' new dreams (out of ' + str(seen_count) + ' dreams) to the dreamcatcher!')
     return 'success'
 
 @app.route(os.path.expandvars("/$UPDATE_ROUTENAME"))
