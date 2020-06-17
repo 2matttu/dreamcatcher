@@ -79,7 +79,7 @@ def test_tweepy():
     
     latest_dream = twitter_dreams.find_one(sort=[("date_time", -1)])
     print(latest_dream['date'])
-    if latest_dream['date'] == str(yesterday):
+    if latest_dream['date'] == str(yesterday) or latest_dream['date'] == str(today):
         return "nothing to update"
 
     count = 0

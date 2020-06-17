@@ -2,12 +2,44 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>title</title>
+    <title>Dreams</title>
+
+    <!-- bootstrap cdn -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
   </head>
   <body>
-    <h1>{{ date }}</h1>
-    {% for dream in dream_list %}
-    <p>{{ dream['text'] }}</p>
-    {% endfor %}
+    <h1>Dreams as of {{ date }}</h1>
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          <!-- start loop -->
+          {% for dream in dream_list %}
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                  <p class="card-text">
+                    {{ dream['text'] }}
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">{{ dream['date_time'] }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
   </body>
 </html>
