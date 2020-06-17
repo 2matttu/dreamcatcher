@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, date
 import json
 import os
 import requests
+import random
 import praw
 import tweepy
 import pymongo
@@ -34,7 +35,8 @@ print("uri: " + db_uri)
 def hello_world():
     today = date.today()
     yesterday = today - timedelta(days=1)
-    dream_list = list(twitter_dreams.find( {"date": str(yesterday)} )) #find everything
+    dream_list = list(twitter_dreams.find( { "date": str(yesterday), "truncated": False } )) #find everything
+    random.shuffle(dream_list)
     # for dream in dream_list:
     #     print(dream['text'])
     return render_template('dreams.html', dream_list = dream_list, date = str(yesterday))
