@@ -11,13 +11,14 @@
   <body>
     <div class="jumbotron text-center">
       <h1 class="display-4"> What did Twitter dream about yesterday?</h1>
+      <p class="lead font-italic">Last updated {{ date }}</p>
     </div>
-    <div class="album py-5 bg-light">
+    <div class="album py-5">
       <div class="container">
         <div class="row">
           <!-- start loop -->
           {% for dream in dream_list %}
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-12">
               <div class="card mb-4 box-shadow">
                 <div class="card-body">
                   <p class="card-text">

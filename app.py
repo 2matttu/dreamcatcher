@@ -33,13 +33,13 @@ print("uri: " + db_uri)
     
 @app.route('/')
 def hello_world():
-    today = date.today()
-    yesterday = today - timedelta(days=1)
-    dream_list = list(twitter_dreams.find( { "date": str(yesterday), "truncated": False } )) #find everything
+    latest_dream = twitter_dreams.find_one(sort=[("date_time", -1)])
+    print(latest_dream['date'])
+
+    dream_list = list(twitter_dreams.find( { "date": latest_dream['date'], "truncated": False } )) #find everything
     random.shuffle(dream_list)
-    # for dream in dream_list:
-    #     print(dream['text'])
-    return render_template('dreams.html', dream_list = dream_list, date = str(yesterday))
+
+    return render_template('dreams.html', dream_list = dream_list, date = latest_dream['date'])
     
 @app.route('/reddit')
 def test_praw():
