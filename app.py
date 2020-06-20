@@ -40,6 +40,16 @@ def hello_world():
     random.shuffle(dream_list)
 
     return render_template('dreams.html', dream_list = dream_list, date = latest_dream['date'])
+
+@app.route('/typed')
+def typed():
+    latest_dream = twitter_dreams.find_one(sort=[("date_time", -1)])
+    print(latest_dream['date'])
+
+    dream_list = list(twitter_dreams.find( { "date": latest_dream['date'], "truncated": False } )) #find everything
+    random.shuffle(dream_list)
+
+    return render_template('typed.html', dream_list = dream_list, date = latest_dream['date'])
     
 @app.route('/reddit')
 def test_praw():

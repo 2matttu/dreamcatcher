@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dreams</title>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+  </head>
+  <body>
+    <div id="typed-strings">
+        {% for dream in dream_list %}
+        <p>
+            ^1000 {{ dream['text']|safe }}
+        </p>
+        {% endfor %}
+    </div>
+    <main role="main">
+        <div class="jumbotron text-center">
+            <h1 class="display-4"> What did Twitter dream about yesterday?</h1>
+            <p class="lead font-italic">Last updated {{ date }}</p>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <blockquote class="blockquote text-center">
+                        <p><span id="typed"></span></p>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+    var typed = new Typed('#typed',{
+        stringsElement: '#typed-strings',
+        backSpeed: 40,
+        typeSpeed: 60,
+        backDelay: 2000,
+        shuffle: true,
+        loop: true
+        });
+    </script>
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/2matttu/dreamcatcher#readme",
   "dependencies": {
-    "paper": "^0.12.8"
+    "paper": "^0.12.8",
+    "typed.js": "^2.0.11"
   }
 }
