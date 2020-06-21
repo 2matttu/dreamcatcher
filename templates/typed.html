@@ -7,7 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-
+    <!-- custom footer css -->
+    <link href="https://getbootstrap.com/docs/4.1/examples/sticky-footer/sticky-footer.css" rel="stylesheet">
+    <link href="/static/styles.css" rel="stylesheet">
   </head>
   <body>
     <div id="typed-strings">
@@ -19,19 +21,23 @@
     </div>
     <main role="main">
         <div class="jumbotron text-center">
-            <h1 class="display-4"> What did Twitter dream about yesterday?</h1>
-            <p class="lead font-italic">Last updated {{ date }}</p>
+            <h1 class="heading-1"> What does Twitter dream about?</h1>
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <blockquote class="blockquote text-center">
-                        <p><span id="typed"></span></p>
+                        <p id="typed_plus_cursor"><span id="typed"></span></p>
                     </blockquote>
                 </div>
             </div>
         </div>
     </main>
+    <footer class="footer">
+        <div class="container text-center">
+            <span class="text-muted"><a class="text-muted" href="/all">Show all dreams from yesterday</a></span>
+        </div>
+    </footer>
     <script>
     var typed = new Typed('#typed',{
         stringsElement: '#typed-strings',
@@ -41,6 +47,13 @@
         shuffle: true,
         loop: true
         });
+
+    let typedElements = document.querySelectorAll(".typed-cursor");
+
+    for (let i = 0; i < typedElements.length; i++) {
+        typedElements[i].style.fontSize = "2rem";
+    }
+
     </script>
 
   <!-- Bootstrap core JavaScript
