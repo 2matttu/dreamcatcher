@@ -73,15 +73,12 @@ def test_praw():
         
         if (post_flair == "None" or post_flair == "Short Dream" or post_flair == "Long Dream") and post_length > 0 and post_upvotes > 0:
             db_payload = {"date": date_str, "origin": "Reddit", "title": post_title, "text": post_text, "length": post_length, "score": post_upvotes}
-            # collection.insert_one(db_payload)
             db_payload_list.append(db_payload)
             print('yeeted into the database!')
             upload_count += 1
         else:
             print('not yeet')
         seen_count += 1
-    # collection.insert_many(db_payload_list)
-    # print('added ' + str(upload_count) + ' new dreams (out of ' + str(seen_count) + ' dreams) to the dreamcatcher!')
     return 'success'
 
 @app.route(os.path.expandvars("/$UPDATE_ROUTENAME"))
@@ -99,17 +96,9 @@ def test_tweepy():
     #searches for dream-related tweets the day before
     for tweet in tweepy.Cursor(tw_api.search, q='"i dreamed about" OR "i had a dream about" OR "i had a nightmare about" OR "i dreamed that" -filter:retweets -filter:media -filter:links -filter:replies since:' + yesterday.strftime('%Y-%m-%d') + ' until:' + today.strftime('%Y-%m-%d')).items(1000):
         try: 
-            #debugging in console
-            # print("\n~~\n", tweet.text)
-            # print(tweet.created_at)
-            # print(tweet.id)
-            # print("truncated?", tweet.truncated)
-
             tweet_to_add = {"date": str(yesterday), "date_time": str(tweet.created_at), "tweet_id": tweet.id, "text": str(tweet.text), "truncated": tweet.truncated}
             tweets_to_upload.append(tweet_to_add)
-            # print("added to array!")
             count += 1
-            print("found", count, "dream so far")
         except:
             print('\n[something went wrong]')
     
