@@ -92,17 +92,23 @@ def test_tweepy():
         return "nothing to update"
 
     count = 0
+    count_truncated = 0
+    char_count = 0
     tweets_to_upload = []
     #searches for dream-related tweets the day before
     for tweet in tweepy.Cursor(tw_api.search, q='"i dreamed about" OR "i had a dream about" OR "i had a nightmare about" OR "i dreamed that" -filter:retweets -filter:media -filter:links -filter:replies since:' + yesterday.strftime('%Y-%m-%d') + ' until:' + today.strftime('%Y-%m-%d')).items(1000):
         try: 
             tweet_to_add = {"date": str(yesterday), "date_time": str(tweet.created_at), "tweet_id": tweet.id, "text": str(tweet.text), "truncated": tweet.truncated}
+            if tweet.truncated:
+                count_truncated += 1
             tweets_to_upload.append(tweet_to_add)
             count += 1
+            char_count += len(str(tweet.text))
         except:
             print('\n[something went wrong]')
-    
     #status report
     print(count, " dreams collected")
+    #metadata
+    db['metadata'].insert_one({"date": str(yesterday), "total": count, "trunc": count_truncated})
     twitter_dreams.insert_many(tweets_to_upload)
     return 'done'
