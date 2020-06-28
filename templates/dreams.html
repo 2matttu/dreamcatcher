@@ -23,7 +23,7 @@
                 <div class="card mb-4 box-shadow">
                   <div class="card-body">
                     <p class="card-text">
-                      {{ dream['text']|safe }}
+                      {{ dream['text']|e }}
                     </p>
                     <div class="d-flex justify-content-between align-items-center">
                       <small class="text-muted"><a href="https://twitter.com/i/web/status/{{ dream['tweet_id'] }}" target="_blank">UTC {{ dream['date_time'][10:16] }}</a></small>

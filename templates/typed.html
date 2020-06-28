@@ -15,7 +15,7 @@
     <div id="typed-strings">
         {% for dream in dream_list %}
         <p>
-            ^1000 {{ dream['text']|safe }}
+            ^1000 {{ dream['text']|e }}
         </p>
         {% endfor %}
     </div>
