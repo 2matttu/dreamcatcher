@@ -13,22 +13,12 @@ app = Flask(__name__)
 db_uri = os.path.expandvars("$DB_URI")
 cluster = MongoClient(db_uri)
 db = cluster["dreamcatcher"]
-collection = db["dreams"]
 twitter_dreams = db["twitter"]
-
-#praw
-reddit = praw.Reddit(client_id = os.path.expandvars("$REDDIT_ID"), 
-                    client_secret = os.path.expandvars("$REDDIT_SECRET"), 
-                    password = os.path.expandvars("$REDDIT_PASSWORD"), 
-                    user_agent  = "dreamcatcher", 
-                    username = os.path.expandvars("$REDDIT_USERNAME"))
-dreams_sub = reddit.subreddit('Dreams')
 
 #tweepy
 tw_auth = tweepy.AppAuthHandler(os.path.expandvars("$TWITTER_KEY"), os.path.expandvars("$TWITTER_SECRET"))
 tw_api = tweepy.API(tw_auth)
 
-print(reddit.user.me())
 print("uri: " + db_uri)
     
 @app.route('/')
@@ -50,36 +40,6 @@ def typed():
     random.shuffle(dream_list)
 
     return render_template('dreams.html', dream_list = dream_list, date = latest_dream['date'])
-    
-@app.route('/reddit')
-def test_praw():
-    date_str = datetime.today().strftime('%Y-%m-%d')
-    print("today is " + date_str)
-    daily_dreams = dreams_sub.top(limit=1000, time_filter='day')
-    upload_count = 0
-    seen_count = 0
-    db_payload_list = []
-    for post in daily_dreams:
-        post_title = post.title
-        post_text = post.selftext
-        post_length = len(post_text)
-        post_flair = str(post.link_flair_text)
-        post_upvotes = post.score
-
-        # debug stuff
-        print(post_title)
-        print("flair: " + post_flair + ", Upvotes: " + str(post_upvotes))
-        print(len(post_text))
-        
-        if (post_flair == "None" or post_flair == "Short Dream" or post_flair == "Long Dream") and post_length > 0 and post_upvotes > 0:
-            db_payload = {"date": date_str, "origin": "Reddit", "title": post_title, "text": post_text, "length": post_length, "score": post_upvotes}
-            db_payload_list.append(db_payload)
-            print('yeeted into the database!')
-            upload_count += 1
-        else:
-            print('not yeet')
-        seen_count += 1
-    return 'success'
 
 @app.route(os.path.expandvars("/$UPDATE_ROUTENAME"))
 def test_tweepy():
