@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory   
 from datetime import datetime, timedelta, date
 import json
 import os
@@ -21,6 +21,11 @@ tw_api = tweepy.API(tw_auth)
 
 print("uri: " + db_uri)
     
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
+
 @app.route('/')
 def hello_world():
     latest_dream = twitter_dreams.find_one(sort=[("date_time", -1)])
