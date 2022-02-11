@@ -28,7 +28,7 @@ plac==0.9.6
 praw==7.0.0
 prawcore==1.4.0
 preshed==2.0.1
-protobuf==3.9.1
+protobuf==3.15.0
 pylint==2.5.2
 pymongo==3.10.1
 Pyphen==0.9.5
