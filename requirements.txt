@@ -1,7 +1,7 @@
 appdirs==1.4.4
 astroid==2.4.1
 blis==0.2.4
-certifi==2019.9.11
+certifi==2022.12.7
 chardet==3.0.4
 Click==7.0
 colorama==0.4.3
